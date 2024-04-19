@@ -176,12 +176,12 @@ local default_plugins = {
   {
     "numToStr/Comment.nvim",
     keys = {
-      { "gcc", mode = "n", desc = "Comment toggle current line" },
-      { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
-      { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
-      { "gbc", mode = "n", desc = "Comment toggle current block" },
-      { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
-      { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
+      { "gcc", mode = "n",          desc = "Comment toggle current line" },
+      { "gc",  mode = { "n", "o" }, desc = "Comment toggle linewise" },
+      { "gc",  mode = "x",          desc = "Comment toggle linewise (visual)" },
+      { "gbc", mode = "n",          desc = "Comment toggle current block" },
+      { "gb",  mode = { "n", "o" }, desc = "Comment toggle blockwise" },
+      { "gb",  mode = "x",          desc = "Comment toggle blockwise (visual)" },
     },
     init = function()
       require("core.utils").load_mappings "comment"
@@ -226,6 +226,7 @@ local default_plugins = {
       for _, ext in ipairs(opts.extensions_list) do
         telescope.load_extension(ext)
       end
+      telescope.load_extension("flutter")
     end,
   },
 
@@ -242,6 +243,109 @@ local default_plugins = {
       require("which-key").setup(opts)
     end,
   },
+
+  {
+    "nvimtools/none-ls.nvim",
+    event = "VeryLazy",
+    opts = function()
+      return require "custom.null-ls"
+    end
+  },
+
+  {
+    "windwp/nvim-ts-autotag",
+    ft = {
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact"
+    },
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end
+  },
+
+  {
+    'saecki/crates.nvim',
+    ft = { "toml" },
+    config = function(_, opts)
+      local crates = require('crates')
+      crates.setup(opts)
+      require('cmp').setup.buffer({
+        sources = { { name = "crates" } }
+      })
+      crates.show()
+      require("core.utils").load_mappings("crates")
+    end,
+  },
+
+  {
+    "rust-lang/rust.vim",
+    ft = "rust",
+    init = function()
+      vim.g.rustfmt_autosave = 1
+    end
+  },
+
+  {
+    "shortcuts/no-neck-pain.nvim",
+    keys = {
+      { "<leader>np", mode = "n", desc = "No neck pain" },
+    }
+  },
+
+  {
+    "christoomey/vim-tmux-navigator",
+    lazy = false,
+  },
+
+  {
+    'akinsho/flutter-tools.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'stevearc/dressing.nvim',
+    },
+    config = function ()
+      require("flutter-tools").setup({
+        widget_guides = {
+          enabled = true
+        }
+      })
+    end,
+    lazy = false
+  },
+
+  {
+    "epwalsh/obsidian.nvim",
+    version = "*",
+    lazy = true,
+    ft = "markdown",
+    dependencies = {
+      "nvim-lua/plenary.nvim"
+    },
+    config = function()
+      require("obsidian").setup({
+        workspaces = {
+          name = "personal vault",
+          path = "/Users/mori/personal-vault/Utgifter.md"
+        },
+        completion = {
+          nvim_cmp = true,
+
+          -- Trigger complete at 2 chars
+          min_chars = 2,
+
+          -- * "current_dir" - put new notes in the same directory as the current buffer
+          -- * "notes_subdir" - put new notes in the default notes subdirectory
+          new_notes_location = "current_dir",
+
+          -- Add the note id after completion, so docs are linked in obsidian
+          prepend_note_id = true
+        },
+        mappings = {},
+      })
+    end
+  }
 }
 
 local config = require("core.utils").load_config()

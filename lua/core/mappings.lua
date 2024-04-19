@@ -8,7 +8,7 @@ M.general = {
     ["<C-b>"] = { "<ESC>^i", "Beginning of line" },
     ["<C-e>"] = { "<End>", "End of line" },
 
-    -- navigate within insert mode
+    -- navigate within  insert mode
     ["<C-h>"] = { "<Left>", "Move left" },
     ["<C-l>"] = { "<Right>", "Move right" },
     ["<C-j>"] = { "<Down>", "Move down" },
@@ -27,11 +27,14 @@ M.general = {
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
 
     -- Copy all
-    ["<C-c>"] = { "<cmd> %y+ <CR>", "Copy whole file" },
+    ["<C-c>"] = { "\"+yy", "Copy line" },
 
     -- line numbers
     ["<leader>n"] = { "<cmd> set nu! <CR>", "Toggle line number" },
     ["<leader>rn"] = { "<cmd> set rnu! <CR>", "Toggle relative number" },
+
+    -- Open flutter commands
+    ["<leader>fc"] = { "<cmd> Telescope flutter commands<CR>", "Flutter commands" },
 
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
@@ -52,6 +55,8 @@ M.general = {
       end,
       "LSP formatting",
     },
+
+    ["<leader>cl"] = { "<cmd> term cloc . <CR>", "Count lines in project" },
   },
 
   t = {
@@ -63,6 +68,7 @@ M.general = {
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
     ["<"] = { "<gv", "Indent line" },
     [">"] = { ">gv", "Indent line" },
+    ["<C-c>"] = { "\"+y", "Copy selection" },
   },
 
   x = {
@@ -463,6 +469,27 @@ M.gitsigns = {
       "Toggle deleted",
     },
   },
+}
+
+M.no_neck_pain = {
+  plugin = true,
+
+  -- Navigation through hunks
+  n = {
+    ["<leader>np"] = {
+      function()
+        if vim.wo.diff then
+          return "]c"
+        end
+        vim.schedule(function()
+          require("gitsigns").next_hunk()
+        end)
+        return "<Ignore>"
+      end,
+      "No neck pain",
+      opts = { expr = true },
+    },
+  }
 }
 
 return M
