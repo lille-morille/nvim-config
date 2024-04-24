@@ -17,24 +17,25 @@ M.general = {
 
   n = {
     ["<Esc>"] = { "<cmd> noh <CR>", "Clear highlights" },
+
     -- switch between windows
-    ["<C-h>"] = { "<C-w>h", "Window left" },
-    ["<C-l>"] = { "<C-w>l", "Window right" },
-    ["<C-j>"] = { "<C-w>j", "Window down" },
-    ["<C-k>"] = { "<C-w>k", "Window up" },
+    ["<C-h>"] = { "<cmd>TmuxNavigateLeft<cr>" },
+    ["<C-j>"] = { "<cmd>TmuxNavigateDown<cr>" },
+    ["<C-k>"] = { "<cmd>TmuxNavigateUp<cr>" },
+    ["<C-l>"] = { "<cmd>TmuxNavigateRight<cr>" },
 
     -- save
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
 
-    -- Copy all
-    ["<C-c>"] = { "\"+yy", "Copy line" },
+    -- Copy selection
+    ["<C-c>"] = { "\"+yy", "Copy selection" },
 
     -- line numbers
     ["<leader>n"] = { "<cmd> set nu! <CR>", "Toggle line number" },
     ["<leader>rn"] = { "<cmd> set rnu! <CR>", "Toggle relative number" },
 
     -- Open flutter commands
-    ["<leader>fc"] = { "<cmd> Telescope flutter commands<CR>", "Flutter commands" },
+    ["<leader>fc"] = { "<cmd> Telescope flutter commands <CR>", "Flutter commands" },
 
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
@@ -57,6 +58,9 @@ M.general = {
     },
 
     ["<leader>cl"] = { "<cmd> term cloc . <CR>", "Count lines in project" },
+
+    ["<leader>mr"] = { "<cmd>CellularAutomaton make_it_rain<CR>", "Make it rain!" },
+    ["<leader>gl"] = { "<cmd>CellularAutomaton game_of_life<CR>", "Game of life!" },
   },
 
   t = {

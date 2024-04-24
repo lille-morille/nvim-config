@@ -305,14 +305,43 @@ local default_plugins = {
       'nvim-lua/plenary.nvim',
       'stevearc/dressing.nvim',
     },
-    config = function ()
+    config = function()
       require("flutter-tools").setup({
         widget_guides = {
           enabled = true
+        },
+        settings = {
+          enable_snippets = true
         }
       })
     end,
     lazy = false
+  },
+
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  },
+
+  {
+    "eandrju/cellular-automaton.nvim",
+    version = "*",
+    lazy = false
+  },
+
+  {
+    "edluffy/hologram.nvim",
+    config = function()
+      require('hologram').setup {
+        auto_display = true -- WIP automatic markdown image display, may be prone to breaking
+      }
+    end
   },
 
   {
@@ -323,28 +352,25 @@ local default_plugins = {
     dependencies = {
       "nvim-lua/plenary.nvim"
     },
-    config = function()
-      require("obsidian").setup({
-        workspaces = {
+    opts = {
+      workspaces = {
+        {
           name = "personal vault",
-          path = "/Users/mori/personal-vault/Utgifter.md"
-        },
-        completion = {
-          nvim_cmp = true,
+          path = "/Users/mori/personal-vault"
+        }
+      },
+      new_notes_location = "current_dir",
+      wiki_link_func = function(opts)
+        return string.format("[[%s]]", opts.path)
+      end,
+      completion = {
+        nvim_cmp = true,
 
-          -- Trigger complete at 2 chars
-          min_chars = 2,
-
-          -- * "current_dir" - put new notes in the same directory as the current buffer
-          -- * "notes_subdir" - put new notes in the default notes subdirectory
-          new_notes_location = "current_dir",
-
-          -- Add the note id after completion, so docs are linked in obsidian
-          prepend_note_id = true
-        },
-        mappings = {},
-      })
-    end
+        -- Trigger complete at 2 chars
+        min_chars = 2,
+      },
+      mappings = {},
+    },
   }
 }
 

@@ -1,22 +1,25 @@
-return config = function()
+local M = {}
+
+M.setup = function()
   require("obsidian").setup({
-  workspaces = {
-    name = "personal vault",
-    path = "/Users/mori/personal-vault/Utgifter.md"
-  },
-  completion = {
-    nvim_cmp = true,
-
-    -- Trigger complete at 2 chars
-    min_chars = 2,
-
-    -- * "current_dir" - put new notes in the same directory as the current buffer
-    -- * "notes_subdir" - put new notes in the default notes subdirectory
+    workspaces = {
+      {
+        name = "personal vault",
+        path = "/Users/mori/personal-vault"
+      }
+    },
     new_notes_location = "current_dir",
+    wiki_link_func = function(opts)
+      return string.format("[[%s]]", opts.path)
+    end,
+    completion = {
+      nvim_cmp = true,
 
-    -- Add the note id after completion, so docs are linked in obsidian
-    prepend_note_id = true
-  },
-  mappings = {},
-})
+      -- Trigger complete at 2 chars
+      min_chars = 2,
+    },
+    mappings = {},
+  })
 end
+
+return M

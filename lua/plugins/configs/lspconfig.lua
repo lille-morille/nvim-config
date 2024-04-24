@@ -64,7 +64,7 @@ lspconfig.lua_ls.setup {
   },
 }
 
-local servers = { "tsserver", "tailwindcss", "eslint", "cssls" }
+local servers = { "tsserver", "tailwindcss", "eslint", "cssls", "dartls" }
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
