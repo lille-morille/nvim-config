@@ -324,16 +324,13 @@ local default_plugins = {
       'nvim-lua/plenary.nvim',
       'stevearc/dressing.nvim',
     },
-    config = function()
-      require("flutter-tools").setup({
-        widget_guides = {
-          enabled = true
-        },
-        settings = {
-          enable_snippets = true
-        }
-      })
+    opts = function()
+      return require "plugins.configs.flutter"
     end,
+    config = function(_, opts)
+      require("flutter-tools").setup(opts)
+    end,
+    ft = "dart",
     lazy = false
   },
 
