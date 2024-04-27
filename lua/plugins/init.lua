@@ -191,6 +191,25 @@ local default_plugins = {
     end,
   },
 
+  {
+    'echasnovski/mini.move',
+    version = false,
+    opts = function()
+      return require "plugins.configs.mini-move"
+    end,
+    lazy = false,
+    config = function(_, opts)
+      require("mini.move").setup(opts)
+    end
+  },
+
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function() vim.fn["mkdp#util#install"]() end,
+  },
+
   -- file managing , picker etc
   {
     "nvim-tree/nvim-tree.lua",
