@@ -28,7 +28,8 @@ M.general = {
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
 
     -- Copy selection
-    ["<C-c>"] = { "\"+yy", "Copy selection" },
+    ["<C-c>"] = { "\"+yy", "Copy line to system clipboard" },
+    ["<C-x>"] = { "\"+dd", "Cut line to system clipboard" },
 
     -- line numbers
     ["<leader>n"] = { "<cmd> set nu! <CR>", "Toggle line number" },
@@ -36,6 +37,12 @@ M.general = {
 
     -- Open flutter commands
     ["<leader>fc"] = { "<cmd> Telescope flutter commands <CR>", "Flutter commands" },
+
+    -- Close all buffers except current
+    ["<leader>X"] = { "<cmd>%bd<CR>", "Close all buffers" },
+
+    -- Preview markdown
+    ["<leader>pm"] = { "<cmd> MarkdownPreview <CR>", "Preview markdown" },
 
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
@@ -63,16 +70,13 @@ M.general = {
     ["<leader>gl"] = { "<cmd>CellularAutomaton game_of_life<CR>", "Game of life!" },
   },
 
-  t = {
-    ["<C-x>"] = { vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "Escape terminal mode" },
-  },
-
   v = {
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
     ["<"] = { "<gv", "Indent line" },
     [">"] = { ">gv", "Indent line" },
     ["<C-c>"] = { "\"+y", "Copy selection" },
+    ["<C-x>"] = { "\"+d", "Cut selection" },
   },
 
   x = {
@@ -314,7 +318,7 @@ M.nvterm = {
       "Toggle floating term",
     },
 
-    ["<A-h>"] = {
+    ["<A-b>"] = {
       function()
         require("nvterm.terminal").toggle "horizontal"
       end,
@@ -338,7 +342,7 @@ M.nvterm = {
       "Toggle floating term",
     },
 
-    ["<A-h>"] = {
+    ["<A-b>"] = {
       function()
         require("nvterm.terminal").toggle "horizontal"
       end,
