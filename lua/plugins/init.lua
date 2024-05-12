@@ -69,6 +69,8 @@ local default_plugins = {
 
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "master",
+    commit = "f2778bd1a28b74adf5b1aa51aa57da85adfa3d16",
     event = { "BufReadPost", "BufNewFile" },
     tag = "v0.9.2",
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
@@ -121,7 +123,7 @@ local default_plugins = {
     "neovim/nvim-lspconfig",
     event = "User FilePost",
     config = function()
-      require "plugins.configs.lspconfig"
+      require("plugins.configs.lspconfig").setup()
     end,
   },
 
@@ -171,6 +173,16 @@ local default_plugins = {
     config = function(_, opts)
       require("cmp").setup(opts)
     end,
+  },
+
+  {
+    "lervag/vimtex",
+    lazy = false, -- we don't want to lazy load VimTeX
+    -- tag = "v2.15", -- uncomment to pin to a specific release
+    init = function()
+      -- VimTeX configuration goes here
+      require("plugins.configs.vim-tex").setup()
+    end
   },
 
   {
@@ -330,7 +342,6 @@ local default_plugins = {
     config = function(_, opts)
       require("flutter-tools").setup(opts)
     end,
-    ft = "dart",
     lazy = false
   },
 

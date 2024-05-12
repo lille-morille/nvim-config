@@ -1,8 +1,6 @@
 local lsp_config = require "plugins.configs.lspconfig"
 local format_group = vim.api.nvim_create_augroup("DartFormatAndFix", { clear = true })
 
-
-
 return {
   widget_guides = {
     enabled = true

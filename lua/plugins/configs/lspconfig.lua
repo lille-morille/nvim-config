@@ -1,9 +1,5 @@
-dofile(vim.g.base46_cache .. "lsp")
-require "nvchad.lsp"
-
 local M = {}
 local utils = require "core.utils"
-local util = require "lspconfig/util"
 
 -- export on_attach & capabilities for custom lspconfigs
 
@@ -39,50 +35,59 @@ M.capabilities.textDocument.completion.completionItem = {
   },
 }
 
-local lspconfig = require("lspconfig")
+M.setup = function()
+  require "nvchad.lsp"
+  dofile(vim.g.base46_cache .. "lsp")
+  local util = require "lspconfig/util"
+  local lsp_config = require("lspconfig")
 
-lspconfig.lua_ls.setup {
-  on_attach = M.on_attach,
-  capabilities = M.capabilities,
+  lsp_config.lua_ls.setup {
+    on_attach = M.on_attach,
+    capabilities = M.capabilities,
 
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        library = {
-          [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-          [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = { "vim" },
         },
-        maxPreload = 100000,
-        preloadFileSize = 10000,
+        workspace = {
+          library = {
+            [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+            [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+            [vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
+            [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+          },
+          maxPreload = 100000,
+          preloadFileSize = 10000,
+        },
       },
     },
-  },
-}
-
-local servers = { "tsserver", "tailwindcss", "eslint", "cssls" }
-
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = M.on_attach,
-    capabilities = M.capabilities
   }
-end
 
-lspconfig.rust_analyzer.setup({
-  on_attach = M.on_attach,
-  capabilities = M.capabilities,
-  filetypes = { "rust" },
-  root_dir = util.root_pattern("Cargo.toml"),
-  settings = {
-    ["rust-analyzer"] = {
-      cargo = {
-        allFeatures = true
+  -- Generic LSPs to setup
+  local servers = { "tsserver", "tailwindcss", "eslint", "cssls" }
+
+  for _, lsp in ipairs(servers) do
+    lsp_config[lsp].setup {
+      on_attach = M.on_attach,
+      capabilities = M.capabilities
+    }
+  end
+
+  lsp_config.rust_analyzer.setup({
+    on_attach = M.on_attach,
+    capabilities = M.capabilities,
+    filetypes = { "rust" },
+    root_dir = util.root_pattern("Cargo.toml"),
+    settings = {
+      ["rust-analyzer"] = {
+        cargo = {
+          allFeatures = true
+        }
       }
     }
-  }
-})
+  })
+end
+
+
+return M
