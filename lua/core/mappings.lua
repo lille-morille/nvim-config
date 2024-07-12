@@ -29,7 +29,7 @@ M.general = {
 
     -- Copy selection
     ["<C-c>"] = { "\"+yy", "Copy line to system clipboard" },
-    ["<C-x>"] = { "\"+dd", "Cut line to system clipboard" },
+    -- ["<C-x>"] = { "\"+dd", "Cut line to system clipboard" },
 
     -- line numbers
     ["<leader>n"] = { "<cmd> set nu! <CR>", "Toggle line number" },
